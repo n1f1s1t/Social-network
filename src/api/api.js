@@ -18,18 +18,27 @@ export const usersAPI = {
         return instance.delete(`follow/${userId}`)
     },
     getProfile (userId) {
-        return instance.get(`profile/` + userId);
+        console.warn ('Please, use ProfileAPI')
+        return profileAPI.getProfile(userId)
     }
 }
+
+export const profileAPI = {
+    getProfile (userId) {
+        return instance.get(`profile/` + userId);
+    },
+    getStatus (userId){
+        return instance.get(`profile/status/` + userId);
+    },
+    
+    updateStatus(status) {
+        return instance.put(`profile/status`, { status: status });
+    }
+}
+
 export const authAPI = {
     me(){
         return instance.get(`auth/me`)
     }
 }
-
-
-
-// export const getUsers2 = (currentPage, pageSize) => {
-//     return instance.get(`follow?page=${currentPage}&count=${pageSize}`).then(response => response.data)
-// }
 
