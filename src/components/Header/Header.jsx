@@ -8,8 +8,9 @@ const Header = (props) => {
             <img src="https://vk.com/images/brand/vk-logo--fb.png"></img>
 
             <div className={classes.loginBlock}>
-                {props.isAuth ? props.login
-                : <NavLink to={'/Login'}>Login</NavLink>
+                { props.isAuth 
+                ? <div> {props.login} - <button onClick={props.logout}> Logout </button> </div>
+                : <NavLink to={'/login'}>Login</NavLink>
             
             }
             </div>
