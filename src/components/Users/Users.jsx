@@ -2,8 +2,6 @@ import React from 'react';
 import userPhoto from "./../../assets/images/user_image.png"
 import classes from './users.module.css';
 import { NavLink } from 'react-router-dom';
-import * as axios from 'axios';
-import { usersAPI } from '../../api/api';
 
 let Users = (props) => {
 
