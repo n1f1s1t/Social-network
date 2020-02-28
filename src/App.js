@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Setting from './components/Setting/Setting';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, BrowserRouter} from 'react-router-dom';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import {initialazeApp} from './Redux/app-reducer'
 import { compose } from 'redux';
 import Preloader from './components/Common/Preloader/preloader';
+import store from "./Redux/redux-store";
+import { Provider } from 'react-redux';
 
 
 class App extends React.Component {
@@ -53,4 +55,14 @@ const mapStateToProps = (state) => ({
   initialazed: state.app.initialazed
 })
 
-export default compose(withRouter, connect(mapStateToProps, {initialazeApp})) (App);
+let AppContainer = compose(withRouter, connect(mapStateToProps, {initialazeApp})) (App);
+
+let MainApp =  (props) => {
+  return <BrowserRouter>
+        <Provider store={store}>
+            <AppContainer />
+        </Provider>
+    </BrowserRouter>
+}
+
+export default MainApp
