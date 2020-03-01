@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Setting from './components/Setting/Setting';
-import {Route, withRouter, BrowserRouter} from 'react-router-dom';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
+import {Route, withRouter, HashRouter} from 'react-router-dom';
+// import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
-import ProfileContainer from './components/Profile/ProfileContainer';
+// import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { connect } from 'react-redux';
@@ -17,6 +17,8 @@ import Preloader from './components/Common/Preloader/preloader';
 import store from "./Redux/redux-store";
 import { Provider } from 'react-redux';
 
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
 class App extends React.Component {
   componentDidMount() {
@@ -24,20 +26,30 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.props.initialazed){
-    return <Preloader />
+    if (!this.props.initialazed) {
+      return <Preloader />
     }
-    
+
     return (
       <div className='app-wripper' >
         <HeaderContainer />
         <Navbar />
         <div className='app-wripper-content'>
           <Route path='/dialogs'
-            render={() => <DialogsContainer />} />
+            render={() => {
+              return (
+                <Suspense fallback={<div>Загрузка...</div>}>
+                  <DialogsContainer />
+                </Suspense>)
+            }} />
 
           <Route path='/profile/:userId?'
-            render={() => <ProfileContainer />} />
+            render={() => {
+              return (
+                <Suspense fallback={<div>Загрузка...</div>}>
+                  <ProfileContainer />
+                </Suspense>)
+            }} />
           <Route path='/users'
             render={() => <UsersContainer />} />
           <Route path='/login'
@@ -58,11 +70,11 @@ const mapStateToProps = (state) => ({
 let AppContainer = compose(withRouter, connect(mapStateToProps, {initialazeApp})) (App);
 
 let MainApp =  (props) => {
-  return <BrowserRouter>
+  return <HashRouter >
         <Provider store={store}>
             <AppContainer />
         </Provider>
-    </BrowserRouter>
+    </HashRouter>
 }
 
 export default MainApp

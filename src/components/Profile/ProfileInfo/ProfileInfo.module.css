@@ -1,3 +1,16 @@
+.wallpaper{
+    width: 1000px;
+    height: 200px;
+}
+
 .descriptionBlock {
     padding: 10px;
+}
+
+.mainPhoto {
+    max-width: 150px;
+}
+
+.contact{
+    padding-left: 10px;
 }
